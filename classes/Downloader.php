@@ -289,9 +289,9 @@ class Downloader
                 $this->avconv,
                 '-v', $this->avconvVerbosity,
                 '-i', $url,
+                '-f', 'mp4',
                 '-c', 'copy',
                 '-bsf:a', 'aac_adtstoasc',
-                '-vcodec', 'copy',
                 '-movflags', 'frag_keyframe+empty_moov',
                 'pipe:1',
             ]
