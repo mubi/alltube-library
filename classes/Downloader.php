@@ -272,28 +272,26 @@ class Downloader
     /**
      * Get video stream from an M3U playlist.
      *
-     * @param Video $video Video object
+     * @param String $url The M3U URL
      * @return resource popen stream
      * @throws AlltubeLibraryException
      * @throws AvconvException If avconv/ffmpeg is missing
      * @throws PopenStreamException If the popen stream was not created correctly
      */
-    public function getM3uStream(Video $video)
+    public function getM3uStream(String $url)
     {
         if (!$this->checkCommand([$this->avconv, '-version'])) {
             throw new AvconvException($this->avconv);
         }
 
-        $urls = $video->getUrl();
-
         $process = new Process(
             [
                 $this->avconv,
                 '-v', $this->avconvVerbosity,
-                '-i', $urls[0],
-                '-f', $video->ext,
+                '-i', $url,
                 '-c', 'copy',
                 '-bsf:a', 'aac_adtstoasc',
+                '-vcodec', 'copy',
                 '-movflags', 'frag_keyframe+empty_moov',
                 'pipe:1',
             ]
