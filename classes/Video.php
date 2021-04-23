@@ -41,7 +41,7 @@ class Video
     /**
      * Requested video format.
      *
-     * @var string
+     * @var string|null
      */
     private $requestedFormat;
 
@@ -78,7 +78,7 @@ class Video
      *
      * @param Downloader $downloader Downloader instance
      * @param string $webpageUrl URL of the page containing the video
-     * @param string $requestedFormat Requested video format
+     * @param string|null $requestedFormat Requested video format
      *                                (can be any format string accepted by youtube-dl,
      *                                including selectors like "[height<=720]")
      * @param string|null $password Password
@@ -86,7 +86,7 @@ class Video
     public function __construct(
         Downloader $downloader,
         string $webpageUrl,
-        string $requestedFormat,
+        string $requestedFormat = null,
         string $password = null
     ) {
         $this->downloader = $downloader;
@@ -274,11 +274,11 @@ class Video
     /**
      * Get the same video but with another format.
      *
-     * @param string $format New format
+     * @param string|null $format New format
      *
      * @return Video
      */
-    public function withFormat(string $format)
+    public function withFormat(string $format = null)
     {
         return new self($this->downloader, $this->webpageUrl, $format, $this->password);
     }
